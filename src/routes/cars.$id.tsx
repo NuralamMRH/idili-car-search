@@ -91,7 +91,7 @@ function CarDetail() {
             <section className="mt-6 rounded-lg border bg-card p-6">
               <h2 className="text-lg font-bold text-navy">Features</h2>
               <ul className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
-                {car.features.map((f) => (
+                {car.features.map((f: string) => (
                   <li key={f} className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-deal-great" /> {f}
                   </li>
