@@ -1,0 +1,23 @@
+{
+
+"$schema": "node_modules/wrangler/config-schema.json",
+
+    "name": "idilicar4sales",
+
+    "compatibility_date": "2026-06-20",
+
+    "observability": {
+
+      "enabled": true
+
+    },
+
+    "main": "@tanstack/react-start/server-entry",
+
+    "compatibility_flags": [
+
+      "nodejs_compat"
+
+    ]
+
+  }
