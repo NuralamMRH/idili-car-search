@@ -14,6 +14,13 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardSalesRouteImport } from './routes/dashboard.sales'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
+import { Route as DashboardOffersRouteImport } from './routes/dashboard.offers'
+import { Route as DashboardMessagesRouteImport } from './routes/dashboard.messages'
+import { Route as DashboardListingsRouteImport } from './routes/dashboard.listings'
+import { Route as DashboardFavoritesRouteImport } from './routes/dashboard.favorites'
 import { Route as CarsIdRouteImport } from './routes/cars.$id'
 
 const SellRoute = SellRouteImport.update({
@@ -41,6 +48,41 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSalesRoute = DashboardSalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardOffersRoute = DashboardOffersRouteImport.update({
+  id: '/offers',
+  path: '/offers',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMessagesRoute = DashboardMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardListingsRoute = DashboardListingsRouteImport.update({
+  id: '/listings',
+  path: '/listings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardFavoritesRoute = DashboardFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const CarsIdRoute = CarsIdRouteImport.update({
   id: '/cars/$id',
   path: '/cars/$id',
@@ -50,33 +92,78 @@ const CarsIdRoute = CarsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
   '/cars/$id': typeof CarsIdRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/listings': typeof DashboardListingsRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/offers': typeof DashboardOffersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/sales': typeof DashboardSalesRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/dashboard': typeof DashboardRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
   '/cars/$id': typeof CarsIdRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/listings': typeof DashboardListingsRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/offers': typeof DashboardOffersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/sales': typeof DashboardSalesRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
   '/cars/$id': typeof CarsIdRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/listings': typeof DashboardListingsRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/offers': typeof DashboardOffersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/sales': typeof DashboardSalesRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard' | '/search' | '/sell' | '/cars/$id'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/search'
+    | '/sell'
+    | '/cars/$id'
+    | '/dashboard/favorites'
+    | '/dashboard/listings'
+    | '/dashboard/messages'
+    | '/dashboard/offers'
+    | '/dashboard/profile'
+    | '/dashboard/sales'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/search' | '/sell' | '/cars/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/search'
+    | '/sell'
+    | '/cars/$id'
+    | '/dashboard/favorites'
+    | '/dashboard/listings'
+    | '/dashboard/messages'
+    | '/dashboard/offers'
+    | '/dashboard/profile'
+    | '/dashboard/sales'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
@@ -85,12 +172,19 @@ export interface FileRouteTypes {
     | '/search'
     | '/sell'
     | '/cars/$id'
+    | '/dashboard/favorites'
+    | '/dashboard/listings'
+    | '/dashboard/messages'
+    | '/dashboard/offers'
+    | '/dashboard/profile'
+    | '/dashboard/sales'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
-  DashboardRoute: typeof DashboardRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   SearchRoute: typeof SearchRoute
   SellRoute: typeof SellRoute
   CarsIdRoute: typeof CarsIdRoute
@@ -133,6 +227,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/sales': {
+      id: '/dashboard/sales'
+      path: '/sales'
+      fullPath: '/dashboard/sales'
+      preLoaderRoute: typeof DashboardSalesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/offers': {
+      id: '/dashboard/offers'
+      path: '/offers'
+      fullPath: '/dashboard/offers'
+      preLoaderRoute: typeof DashboardOffersRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/messages': {
+      id: '/dashboard/messages'
+      path: '/messages'
+      fullPath: '/dashboard/messages'
+      preLoaderRoute: typeof DashboardMessagesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/listings': {
+      id: '/dashboard/listings'
+      path: '/listings'
+      fullPath: '/dashboard/listings'
+      preLoaderRoute: typeof DashboardListingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/favorites': {
+      id: '/dashboard/favorites'
+      path: '/favorites'
+      fullPath: '/dashboard/favorites'
+      preLoaderRoute: typeof DashboardFavoritesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/cars/$id': {
       id: '/cars/$id'
       path: '/cars/$id'
@@ -143,10 +286,34 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardFavoritesRoute: typeof DashboardFavoritesRoute
+  DashboardListingsRoute: typeof DashboardListingsRoute
+  DashboardMessagesRoute: typeof DashboardMessagesRoute
+  DashboardOffersRoute: typeof DashboardOffersRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardSalesRoute: typeof DashboardSalesRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardFavoritesRoute: DashboardFavoritesRoute,
+  DashboardListingsRoute: DashboardListingsRoute,
+  DashboardMessagesRoute: DashboardMessagesRoute,
+  DashboardOffersRoute: DashboardOffersRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
+  DashboardSalesRoute: DashboardSalesRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
-  DashboardRoute: DashboardRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   SearchRoute: SearchRoute,
   SellRoute: SellRoute,
   CarsIdRoute: CarsIdRoute,
