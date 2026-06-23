@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CarsIdRouteImport } from './routes/cars.$id'
 
@@ -22,6 +24,16 @@ const SellRoute = SellRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +49,16 @@ const CarsIdRoute = CarsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
   '/cars/$id': typeof CarsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
   '/cars/$id': typeof CarsIdRoute
@@ -50,20 +66,31 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
   '/cars/$id': typeof CarsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/sell' | '/cars/$id'
+  fullPaths: '/' | '/auth' | '/dashboard' | '/search' | '/sell' | '/cars/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/sell' | '/cars/$id'
-  id: '__root__' | '/' | '/search' | '/sell' | '/cars/$id'
+  to: '/' | '/auth' | '/dashboard' | '/search' | '/sell' | '/cars/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/search'
+    | '/sell'
+    | '/cars/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  DashboardRoute: typeof DashboardRoute
   SearchRoute: typeof SearchRoute
   SellRoute: typeof SellRoute
   CarsIdRoute: typeof CarsIdRoute
@@ -85,6 +112,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +145,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  DashboardRoute: DashboardRoute,
   SearchRoute: SearchRoute,
   SellRoute: SellRoute,
   CarsIdRoute: CarsIdRoute,
