@@ -25,7 +25,6 @@ import { Route as DashboardOffersRouteImport } from './routes/dashboard.offers'
 import { Route as DashboardMessagesRouteImport } from './routes/dashboard.messages'
 import { Route as DashboardListingsRouteImport } from './routes/dashboard.listings'
 import { Route as DashboardFavoritesRouteImport } from './routes/dashboard.favorites'
-import { Route as CarsIdRouteImport } from './routes/cars.$id'
 
 const SellRoute = SellRouteImport.update({
   id: '/sell',
@@ -107,11 +106,6 @@ const DashboardFavoritesRoute = DashboardFavoritesRouteImport.update({
   path: '/favorites',
   getParentRoute: () => DashboardRoute,
 } as any)
-const CarsIdRoute = CarsIdRouteImport.update({
-  id: '/cars/$id',
-  path: '/cars/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -122,7 +116,6 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
-  '/cars/$id': typeof CarsIdRoute
   '/dashboard/favorites': typeof DashboardFavoritesRoute
   '/dashboard/listings': typeof DashboardListingsRoute
   '/dashboard/messages': typeof DashboardMessagesRoute
@@ -140,7 +133,6 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
-  '/cars/$id': typeof CarsIdRoute
   '/dashboard/favorites': typeof DashboardFavoritesRoute
   '/dashboard/listings': typeof DashboardListingsRoute
   '/dashboard/messages': typeof DashboardMessagesRoute
@@ -160,7 +152,6 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
-  '/cars/$id': typeof CarsIdRoute
   '/dashboard/favorites': typeof DashboardFavoritesRoute
   '/dashboard/listings': typeof DashboardListingsRoute
   '/dashboard/messages': typeof DashboardMessagesRoute
@@ -181,7 +172,6 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/sell'
-    | '/cars/$id'
     | '/dashboard/favorites'
     | '/dashboard/listings'
     | '/dashboard/messages'
@@ -199,7 +189,6 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/sell'
-    | '/cars/$id'
     | '/dashboard/favorites'
     | '/dashboard/listings'
     | '/dashboard/messages'
@@ -218,7 +207,6 @@ export interface FileRouteTypes {
     | '/research'
     | '/search'
     | '/sell'
-    | '/cars/$id'
     | '/dashboard/favorites'
     | '/dashboard/listings'
     | '/dashboard/messages'
@@ -238,7 +226,6 @@ export interface RootRouteChildren {
   ResearchRoute: typeof ResearchRoute
   SearchRoute: typeof SearchRoute
   SellRoute: typeof SellRoute
-  CarsIdRoute: typeof CarsIdRoute
   ListingsIdRoute: typeof ListingsIdRoute
 }
 
@@ -356,13 +343,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardFavoritesRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/cars/$id': {
-      id: '/cars/$id'
-      path: '/cars/$id'
-      fullPath: '/cars/$id'
-      preLoaderRoute: typeof CarsIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -399,7 +379,6 @@ const rootRouteChildren: RootRouteChildren = {
   ResearchRoute: ResearchRoute,
   SearchRoute: SearchRoute,
   SellRoute: SellRoute,
-  CarsIdRoute: CarsIdRoute,
   ListingsIdRoute: ListingsIdRoute,
 }
 export const routeTree = rootRouteImport
