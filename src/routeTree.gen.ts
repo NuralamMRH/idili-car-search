@@ -11,8 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as ResearchRouteImport } from './routes/research'
+import { Route as DealersRouteImport } from './routes/dealers'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CarsIdRouteImport } from './routes/cars.$id'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as ListingsIdRouteImport } from './routes/listings.$id'
+import { Route as DashboardSalesRouteImport } from './routes/dashboard.sales'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
+import { Route as DashboardOffersRouteImport } from './routes/dashboard.offers'
+import { Route as DashboardMessagesRouteImport } from './routes/dashboard.messages'
+import { Route as DashboardListingsRouteImport } from './routes/dashboard.listings'
+import { Route as DashboardFavoritesRouteImport } from './routes/dashboard.favorites'
 
 const SellRoute = SellRouteImport.update({
   id: '/sell',
@@ -24,49 +36,197 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DealersRoute = DealersRouteImport.update({
+  id: '/dealers',
+  path: '/dealers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CarsIdRoute = CarsIdRouteImport.update({
-  id: '/cars/$id',
-  path: '/cars/$id',
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const ListingsIdRoute = ListingsIdRouteImport.update({
+  id: '/listings/$id',
+  path: '/listings/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardSalesRoute = DashboardSalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardOffersRoute = DashboardOffersRouteImport.update({
+  id: '/offers',
+  path: '/offers',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMessagesRoute = DashboardMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardListingsRoute = DashboardListingsRouteImport.update({
+  id: '/listings',
+  path: '/listings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardFavoritesRoute = DashboardFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => DashboardRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dealers': typeof DealersRoute
+  '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
-  '/cars/$id': typeof CarsIdRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/listings': typeof DashboardListingsRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/offers': typeof DashboardOffersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/sales': typeof DashboardSalesRoute
+  '/listings/$id': typeof ListingsIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/dealers': typeof DealersRoute
+  '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
-  '/cars/$id': typeof CarsIdRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/listings': typeof DashboardListingsRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/offers': typeof DashboardOffersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/sales': typeof DashboardSalesRoute
+  '/listings/$id': typeof ListingsIdRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dealers': typeof DealersRoute
+  '/research': typeof ResearchRoute
   '/search': typeof SearchRoute
   '/sell': typeof SellRoute
-  '/cars/$id': typeof CarsIdRoute
+  '/dashboard/favorites': typeof DashboardFavoritesRoute
+  '/dashboard/listings': typeof DashboardListingsRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/offers': typeof DashboardOffersRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/sales': typeof DashboardSalesRoute
+  '/listings/$id': typeof ListingsIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/sell' | '/cars/$id'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/dashboard'
+    | '/dealers'
+    | '/research'
+    | '/search'
+    | '/sell'
+    | '/dashboard/favorites'
+    | '/dashboard/listings'
+    | '/dashboard/messages'
+    | '/dashboard/offers'
+    | '/dashboard/profile'
+    | '/dashboard/sales'
+    | '/listings/$id'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/sell' | '/cars/$id'
-  id: '__root__' | '/' | '/search' | '/sell' | '/cars/$id'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/dealers'
+    | '/research'
+    | '/search'
+    | '/sell'
+    | '/dashboard/favorites'
+    | '/dashboard/listings'
+    | '/dashboard/messages'
+    | '/dashboard/offers'
+    | '/dashboard/profile'
+    | '/dashboard/sales'
+    | '/listings/$id'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/dashboard'
+    | '/dealers'
+    | '/research'
+    | '/search'
+    | '/sell'
+    | '/dashboard/favorites'
+    | '/dashboard/listings'
+    | '/dashboard/messages'
+    | '/dashboard/offers'
+    | '/dashboard/profile'
+    | '/dashboard/sales'
+    | '/listings/$id'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AuthRoute: typeof AuthRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  DealersRoute: typeof DealersRoute
+  ResearchRoute: typeof ResearchRoute
   SearchRoute: typeof SearchRoute
   SellRoute: typeof SellRoute
-  CarsIdRoute: typeof CarsIdRoute
+  ListingsIdRoute: typeof ListingsIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,6 +245,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dealers': {
+      id: '/dealers'
+      path: '/dealers'
+      fullPath: '/dealers'
+      preLoaderRoute: typeof DealersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -92,32 +287,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cars/$id': {
-      id: '/cars/$id'
-      path: '/cars/$id'
-      fullPath: '/cars/$id'
-      preLoaderRoute: typeof CarsIdRouteImport
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/listings/$id': {
+      id: '/listings/$id'
+      path: '/listings/$id'
+      fullPath: '/listings/$id'
+      preLoaderRoute: typeof ListingsIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/sales': {
+      id: '/dashboard/sales'
+      path: '/sales'
+      fullPath: '/dashboard/sales'
+      preLoaderRoute: typeof DashboardSalesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/offers': {
+      id: '/dashboard/offers'
+      path: '/offers'
+      fullPath: '/dashboard/offers'
+      preLoaderRoute: typeof DashboardOffersRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/messages': {
+      id: '/dashboard/messages'
+      path: '/messages'
+      fullPath: '/dashboard/messages'
+      preLoaderRoute: typeof DashboardMessagesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/listings': {
+      id: '/dashboard/listings'
+      path: '/listings'
+      fullPath: '/dashboard/listings'
+      preLoaderRoute: typeof DashboardListingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/favorites': {
+      id: '/dashboard/favorites'
+      path: '/favorites'
+      fullPath: '/dashboard/favorites'
+      preLoaderRoute: typeof DashboardFavoritesRouteImport
+      parentRoute: typeof DashboardRoute
     }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardFavoritesRoute: typeof DashboardFavoritesRoute
+  DashboardListingsRoute: typeof DashboardListingsRoute
+  DashboardMessagesRoute: typeof DashboardMessagesRoute
+  DashboardOffersRoute: typeof DashboardOffersRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardSalesRoute: typeof DashboardSalesRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardFavoritesRoute: DashboardFavoritesRoute,
+  DashboardListingsRoute: DashboardListingsRoute,
+  DashboardMessagesRoute: DashboardMessagesRoute,
+  DashboardOffersRoute: DashboardOffersRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
+  DashboardSalesRoute: DashboardSalesRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AuthRoute: AuthRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  DealersRoute: DealersRoute,
+  ResearchRoute: ResearchRoute,
   SearchRoute: SearchRoute,
   SellRoute: SellRoute,
-  CarsIdRoute: CarsIdRoute,
+  ListingsIdRoute: ListingsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
