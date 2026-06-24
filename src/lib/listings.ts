@@ -18,6 +18,7 @@ export type DBListing = {
   description: string | null;
   features: string[];
   image_url: string | null;
+  images: string[];
   status: "active" | "sold" | "pending" | "draft";
   views: number;
   sold_at: string | null;
