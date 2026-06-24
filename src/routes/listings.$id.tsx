@@ -85,13 +85,8 @@ function ListingDetail() {
 
         <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
           <div>
-            <div className="overflow-hidden rounded-lg border bg-card">
-              <div className="aspect-[16/10] bg-muted">
-                {listing.image_url
-                  ? <img src={listing.image_url} alt="" className="h-full w-full object-cover" />
-                  : <div className="grid h-full w-full place-items-center text-muted-foreground">No image</div>}
-              </div>
-            </div>
+            <Gallery images={(listing.images && listing.images.length ? listing.images : [listing.image_url].filter(Boolean)) as string[]} />
+
 
             <section className="mt-6 rounded-lg border bg-card p-6">
               <h2 className="text-lg font-bold text-navy">Vehicle details</h2>
