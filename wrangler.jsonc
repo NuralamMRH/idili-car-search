@@ -1,23 +1,51 @@
 {
 
-"$schema": "node_modules/wrangler/config-schema.json",
+  "$schema": "node_modules/wrangler/config-schema.json",
 
-    "name": "idilicar4sales",
+  "name": "idilicar4sales",
 
-    "compatibility_date": "2026-06-20",
+  "compatibility_date": "2026-06-20",
 
-    "observability": {
+  "observability": {
 
-      "enabled": true
+    "enabled": true
 
-    },
+  },
 
-    "main": "./dist/server/server.js",
+  "main": "./dist/server/index.mjs",
 
-    "compatibility_flags": [
+  "compatibility_flags": [
 
-      "nodejs_compat"
+    "nodejs_compat"
 
-    ]
+  ],
 
-  }
+  "assets": {
+
+    "binding": "ASSETS",
+
+    "directory": "./dist/client"
+
+  },
+
+  "no_bundle": true,
+
+  "rules": [
+
+    {
+
+      "type": "ESModule",
+
+      "globs": [
+
+        "**/*.mjs",
+
+        "**/*.js"
+
+      ]
+
+    }
+
+  ]
+
+}
