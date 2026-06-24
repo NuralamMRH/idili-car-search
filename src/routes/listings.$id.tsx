@@ -146,12 +146,13 @@ function ListingDetail() {
                 )}
               </div>
 
-              {seller && (
-                <div className="rounded-lg border bg-card p-6">
+              {seller && listing.seller_id && (
+                <Link to="/dealers/$id" params={{ id: listing.seller_id }} className="block rounded-lg border bg-card p-6 transition hover:border-brand hover:shadow-md">
                   <div className="text-xs uppercase text-muted-foreground">Sold by</div>
                   <div className="mt-1 font-semibold text-navy">{seller.dealer_name || seller.display_name || seller.full_name || "Private seller"}</div>
                   {seller.is_dealer && <Badge className="mt-1">Verified dealer</Badge>}
-                </div>
+                  <div className="mt-2 text-xs font-semibold text-brand">View seller profile →</div>
+                </Link>
               )}
             </div>
           </aside>
