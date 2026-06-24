@@ -85,13 +85,8 @@ function ListingDetail() {
 
         <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
           <div>
-            <div className="overflow-hidden rounded-lg border bg-card">
-              <div className="aspect-[16/10] bg-muted">
-                {listing.image_url
-                  ? <img src={listing.image_url} alt="" className="h-full w-full object-cover" />
-                  : <div className="grid h-full w-full place-items-center text-muted-foreground">No image</div>}
-              </div>
-            </div>
+            <Gallery images={(listing.images && listing.images.length ? listing.images : [listing.image_url].filter(Boolean)) as string[]} />
+
 
             <section className="mt-6 rounded-lg border bg-card p-6">
               <h2 className="text-lg font-bold text-navy">Vehicle details</h2>
@@ -151,12 +146,13 @@ function ListingDetail() {
                 )}
               </div>
 
-              {seller && (
-                <div className="rounded-lg border bg-card p-6">
+              {seller && listing.seller_id && (
+                <Link to="/dealers/$id" params={{ id: listing.seller_id }} className="block rounded-lg border bg-card p-6 transition hover:border-brand hover:shadow-md">
                   <div className="text-xs uppercase text-muted-foreground">Sold by</div>
                   <div className="mt-1 font-semibold text-navy">{seller.dealer_name || seller.display_name || seller.full_name || "Private seller"}</div>
                   {seller.is_dealer && <Badge className="mt-1">Verified dealer</Badge>}
-                </div>
+                  <div className="mt-2 text-xs font-semibold text-brand">View seller profile →</div>
+                </Link>
               )}
             </div>
           </aside>
@@ -169,6 +165,40 @@ function ListingDetail() {
 
 function Spec({ k, v }: { k: string; v: string }) {
   return <div><dt className="text-xs text-muted-foreground">{k}</dt><dd className="font-medium">{v}</dd></div>;
+}
+
+function Gallery({ images }: { images: string[] }) {
+  const [idx, setIdx] = useState(0);
+  if (!images.length) {
+    return (
+      <div className="overflow-hidden rounded-lg border bg-card">
+        <div className="grid aspect-[16/10] place-items-center bg-muted text-muted-foreground">No image</div>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      <div className="overflow-hidden rounded-lg border bg-card">
+        <div className="aspect-[16/10] bg-muted">
+          <img src={images[idx]} alt="" className="h-full w-full object-cover" />
+        </div>
+      </div>
+      {images.length > 1 && (
+        <div className="flex flex-wrap gap-2">
+          {images.map((src, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIdx(i)}
+              className={`h-16 w-24 overflow-hidden rounded border-2 ${i === idx ? "border-brand" : "border-transparent"}`}
+            >
+              <img src={src} alt="" className="h-full w-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 function ContactDialog({ listing }: { listing: DBListing }) {

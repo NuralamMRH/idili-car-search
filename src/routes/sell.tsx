@@ -28,10 +28,40 @@ function SellPage() {
   const [form, setForm] = useState({
     make: "", model: "", trim: "", year: new Date().getFullYear() - 3, price: 15000, mileage: 30000,
     fuel: "Petrol", transmission: "Automatic", body_type: "Saloon", exterior_color: "",
-    engine: "", doors: 4, seats: 5, location: "", description: "", image_url: "", features: "",
+    engine: "", doors: 4, seats: 5, location: "", description: "", features: "",
   });
+  const [images, setImages] = useState<string[]>([]);
+  const [newImage, setNewImage] = useState("");
   const [busy, setBusy] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
+
+  function addImage() {
+    const url = newImage.trim();
+    if (!url) return;
+    if (!/^https?:\/\//i.test(url)) return toast.error("Enter a valid http(s) image URL");
+    setImages((arr) => [...arr, url]);
+    setNewImage("");
+  }
+  function removeImage(i: number) {
+    setImages((arr) => arr.filter((_, idx) => idx !== i));
+  }
+  async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+    const urls = await Promise.all(
+      files.map(
+        (f) =>
+          new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(f);
+          }),
+      ),
+    );
+    setImages((arr) => [...arr, ...urls]);
+    e.target.value = "";
+  }
 
   function valuate() {
     const base = 25000 - (2026 - Number(form.year || 2020)) * 1800 - Number(form.mileage || 0) * 0.08;
@@ -52,7 +82,9 @@ function SellPage() {
       fuel: form.fuel, transmission: form.transmission, body_type: form.body_type,
       exterior_color: form.exterior_color || null, engine: form.engine || null,
       doors: Number(form.doors), seats: Number(form.seats), location: form.location || null,
-      description: form.description || null, image_url: form.image_url || null,
+      description: form.description || null,
+      image_url: images[0] || null,
+      images,
       features, status: "active",
     }).select().single();
     setBusy(false);
@@ -121,9 +153,45 @@ function SellPage() {
               {estimate !== null && <span className="ml-3 text-sm text-deal-great">Suggested: {fmtPrice(estimate)}</span>}
             </div>
 
-            <Field label="Photo URL (paste a public image link)">
-              <Input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} placeholder="https://..." />
-            </Field>
+            <div>
+              <Label className="mb-1.5 block">Photos</Label>
+              <div className="space-y-3 rounded-md border p-3">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Paste image URL (https://...)"
+                    value={newImage}
+                    onChange={(e) => setNewImage(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }}
+                  />
+                  <Button type="button" variant="outline" onClick={addImage}>Add link</Button>
+                </div>
+                <div>
+                  <input
+                    id="photo-file"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={onFileChange}
+                  />
+                  <Button type="button" variant="outline" onClick={() => document.getElementById("photo-file")?.click()}>
+                    <Upload className="mr-2 h-4 w-4" /> Upload photos from device
+                  </Button>
+                  <p className="mt-1 text-xs text-muted-foreground">First photo will be the cover. You can mix uploads and links.</p>
+                </div>
+                {images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                    {images.map((src, i) => (
+                      <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded border bg-muted">
+                        <img src={src} alt="" className="h-full w-full object-cover" />
+                        {i === 0 && <span className="absolute left-1 top-1 rounded bg-brand px-1.5 py-0.5 text-[10px] font-bold text-brand-foreground">Cover</span>}
+                        <button type="button" onClick={() => removeImage(i)} className="absolute right-1 top-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white opacity-0 group-hover:opacity-100">Remove</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
             <Field label="Features (comma-separated)">
               <Input value={form.features} onChange={(e) => setForm({ ...form, features: e.target.value })} placeholder="Sat nav, Heated seats, Cruise control" />
             </Field>

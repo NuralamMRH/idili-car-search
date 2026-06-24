@@ -52,7 +52,12 @@ function DealersPage() {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {data.map((d: any) => (
-                <div key={d.id} className="rounded-lg border bg-card p-5">
+                <Link
+                  key={d.id}
+                  to="/dealers/$id"
+                  params={{ id: d.id }}
+                  className="block rounded-lg border bg-card p-5 transition hover:border-brand hover:shadow-md"
+                >
                   <div className="flex items-start gap-3">
                     <div className="grid h-12 w-12 place-items-center rounded-lg bg-brand/10 text-brand">
                       <Building2 className="h-6 w-6" />
@@ -64,7 +69,8 @@ function DealersPage() {
                     </div>
                   </div>
                   {d.bio && <p className="mt-3 text-sm text-foreground/80 line-clamp-3">{d.bio}</p>}
-                </div>
+                  <div className="mt-3 text-xs font-semibold text-brand">View profile →</div>
+                </Link>
               ))}
             </div>
           )}
