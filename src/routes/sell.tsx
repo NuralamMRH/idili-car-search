@@ -153,9 +153,45 @@ function SellPage() {
               {estimate !== null && <span className="ml-3 text-sm text-deal-great">Suggested: {fmtPrice(estimate)}</span>}
             </div>
 
-            <Field label="Photo URL (paste a public image link)">
-              <Input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} placeholder="https://..." />
-            </Field>
+            <div>
+              <Label className="mb-1.5 block">Photos</Label>
+              <div className="space-y-3 rounded-md border p-3">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Paste image URL (https://...)"
+                    value={newImage}
+                    onChange={(e) => setNewImage(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }}
+                  />
+                  <Button type="button" variant="outline" onClick={addImage}>Add link</Button>
+                </div>
+                <div>
+                  <input
+                    id="photo-file"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={onFileChange}
+                  />
+                  <Button type="button" variant="outline" onClick={() => document.getElementById("photo-file")?.click()}>
+                    <Upload className="mr-2 h-4 w-4" /> Upload photos from device
+                  </Button>
+                  <p className="mt-1 text-xs text-muted-foreground">First photo will be the cover. You can mix uploads and links.</p>
+                </div>
+                {images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                    {images.map((src, i) => (
+                      <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded border bg-muted">
+                        <img src={src} alt="" className="h-full w-full object-cover" />
+                        {i === 0 && <span className="absolute left-1 top-1 rounded bg-brand px-1.5 py-0.5 text-[10px] font-bold text-brand-foreground">Cover</span>}
+                        <button type="button" onClick={() => removeImage(i)} className="absolute right-1 top-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white opacity-0 group-hover:opacity-100">Remove</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
             <Field label="Features (comma-separated)">
               <Input value={form.features} onChange={(e) => setForm({ ...form, features: e.target.value })} placeholder="Sat nav, Heated seats, Cruise control" />
             </Field>
