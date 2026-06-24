@@ -166,6 +166,40 @@ function Spec({ k, v }: { k: string; v: string }) {
   return <div><dt className="text-xs text-muted-foreground">{k}</dt><dd className="font-medium">{v}</dd></div>;
 }
 
+function Gallery({ images }: { images: string[] }) {
+  const [idx, setIdx] = useState(0);
+  if (!images.length) {
+    return (
+      <div className="overflow-hidden rounded-lg border bg-card">
+        <div className="grid aspect-[16/10] place-items-center bg-muted text-muted-foreground">No image</div>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      <div className="overflow-hidden rounded-lg border bg-card">
+        <div className="aspect-[16/10] bg-muted">
+          <img src={images[idx]} alt="" className="h-full w-full object-cover" />
+        </div>
+      </div>
+      {images.length > 1 && (
+        <div className="flex flex-wrap gap-2">
+          {images.map((src, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIdx(i)}
+              className={`h-16 w-24 overflow-hidden rounded border-2 ${i === idx ? "border-brand" : "border-transparent"}`}
+            >
+              <img src={src} alt="" className="h-full w-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ContactDialog({ listing }: { listing: DBListing }) {
   const { user } = useAuth();
   const navigate = useNavigate();
