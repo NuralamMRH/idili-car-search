@@ -28,10 +28,40 @@ function SellPage() {
   const [form, setForm] = useState({
     make: "", model: "", trim: "", year: new Date().getFullYear() - 3, price: 15000, mileage: 30000,
     fuel: "Petrol", transmission: "Automatic", body_type: "Saloon", exterior_color: "",
-    engine: "", doors: 4, seats: 5, location: "", description: "", image_url: "", features: "",
+    engine: "", doors: 4, seats: 5, location: "", description: "", features: "",
   });
+  const [images, setImages] = useState<string[]>([]);
+  const [newImage, setNewImage] = useState("");
   const [busy, setBusy] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
+
+  function addImage() {
+    const url = newImage.trim();
+    if (!url) return;
+    if (!/^https?:\/\//i.test(url)) return toast.error("Enter a valid http(s) image URL");
+    setImages((arr) => [...arr, url]);
+    setNewImage("");
+  }
+  function removeImage(i: number) {
+    setImages((arr) => arr.filter((_, idx) => idx !== i));
+  }
+  async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+    const urls = await Promise.all(
+      files.map(
+        (f) =>
+          new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(f);
+          }),
+      ),
+    );
+    setImages((arr) => [...arr, ...urls]);
+    e.target.value = "";
+  }
 
   function valuate() {
     const base = 25000 - (2026 - Number(form.year || 2020)) * 1800 - Number(form.mileage || 0) * 0.08;
@@ -52,7 +82,9 @@ function SellPage() {
       fuel: form.fuel, transmission: form.transmission, body_type: form.body_type,
       exterior_color: form.exterior_color || null, engine: form.engine || null,
       doors: Number(form.doors), seats: Number(form.seats), location: form.location || null,
-      description: form.description || null, image_url: form.image_url || null,
+      description: form.description || null,
+      image_url: images[0] || null,
+      images,
       features, status: "active",
     }).select().single();
     setBusy(false);
